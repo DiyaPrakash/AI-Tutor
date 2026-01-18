@@ -48,7 +48,7 @@ def retrieve(query, chunks, index, k=3):
 
 # ---------------- Example ----------------
 if __name__ == "__main__":
-    pdf_path = "sample.pdf"  # replace with your PDF
+    pdf_path = "sample.pdf"  
     chunks = build_chunks(pdf_path)
     index = build_index(chunks)
 
