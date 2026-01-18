@@ -35,6 +35,8 @@ Faulty Code:
 {faulty_code}
 
 Fixed Code:
+<<<<<<< HEAD
+=======
 """
 
 AUDIO_GENERATION_TUTOR_PROMPT = """
