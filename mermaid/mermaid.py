@@ -6,7 +6,7 @@ import os
 
 # Try to import LLM generator (optional)
 try:
-    from llm_graph_generator import LLMGraphGenerator
+    from llm_mermaid import LLMGraphGenerator
     LLM_AVAILABLE = True
 except ImportError:
     LLM_AVAILABLE = False
@@ -14,7 +14,7 @@ except ImportError:
 
 # Try to import Gemini config (optional)
 try:
-    from gemini_config import GEMINI_API_KEY as DEFAULT_GEMINI_API_KEY
+    from gemini_mermaid_cofig import GEMINI_API_KEY as DEFAULT_GEMINI_API_KEY
 except ImportError:
     DEFAULT_GEMINI_API_KEY = None
 
