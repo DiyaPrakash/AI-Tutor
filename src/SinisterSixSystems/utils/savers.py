@@ -13,7 +13,7 @@ def latex_saver_node(state):
     content = state.get("text_content", "")
     filename = sanitize_filename(state["user_input"]) + ".tex"
     path = os.path.join("artifacts", "latex", filename)
-    
+    content = re.sub(r'\[htbp\]htbp\]', r'[htbp]', content)
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
         f.write(content)
