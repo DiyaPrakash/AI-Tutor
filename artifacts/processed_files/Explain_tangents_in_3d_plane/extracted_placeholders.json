@@ -1,0 +1,12 @@
+[
+    {
+        "type": "graph",
+        "idx": 0,
+        "description": "A 3D curve (e.g., a helix or a twisted cubic) with a specific point marked on it. A straight line should be drawn passing through this point, representing the tangent line, and an arrow indicating the tangent vector's direction along this line."
+    },
+    {
+        "type": "graph",
+        "idx": 1,
+        "description": "A 3D surface (e.g., a sphere, paraboloid, or saddle surface) with a specific point marked on it. A flat plane should be drawn passing through this point, representing the tangent plane. A vector should be drawn originating from the point and perpendicular to the tangent plane, representing the normal vector."
+    }
+]

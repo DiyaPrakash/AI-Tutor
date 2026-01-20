@@ -1,0 +1,57 @@
+[
+    {
+        "type": "image",
+        "idx": 0,
+        "description": "Vectors in 2D space"
+    },
+    {
+        "type": "graph",
+        "idx": 1,
+        "description": "Illustrate two vectors u and v in a plane, and their sum u+v, showing all three vectors originating from the origin and remaining within the plane, demonstrating closure under addition."
+    },
+    {
+        "type": "graph",
+        "idx": 2,
+        "description": "Show two vectors u and v. Illustrate u+v using the parallelogram rule, and then v+u also using the parallelogram rule, demonstrating that both result in the same diagonal vector."
+    },
+    {
+        "type": "graph",
+        "idx": 3,
+        "description": "Illustrate three vectors u, v, and w. Show the sum (u+v) first, then add w to it. Separately, show the sum (v+w) first, then add u to it. Demonstrate that the final resultant vector is the same in both cases."
+    },
+    {
+        "type": "graph",
+        "idx": 4,
+        "description": "Show a vector u and the zero vector 0. Illustrate u+0=u, where 0 is a point at the origin."
+    },
+    {
+        "type": "graph",
+        "idx": 5,
+        "description": "Show a vector u and its additive inverse -u (same magnitude, opposite direction). Illustrate their sum resulting in the zero vector at the origin."
+    },
+    {
+        "type": "graph",
+        "idx": 6,
+        "description": "Illustrate a vector u and a scalar c. Show the scaled vector c*u, which lies on the same line as u but with scaled length, demonstrating closure under scalar multiplication."
+    },
+    {
+        "type": "graph",
+        "idx": 7,
+        "description": "Show vectors u and v, and their sum u+v. Then show c(u+v). Separately, show cu and cv, and their sum cu+cv. Demonstrate that the final vectors are identical."
+    },
+    {
+        "type": "graph",
+        "idx": 8,
+        "description": "Show a vector u and scalars c and d. Illustrate (c+d)u. Separately, show cu and du, and their sum cu+du. Demonstrate that the final vectors are identical."
+    },
+    {
+        "type": "graph",
+        "idx": 9,
+        "description": "Show a vector u and scalars c and d. Illustrate du first, then c(du). Separately, calculate the scalar product (cd) and then show (cd)u. Demonstrate that the final vectors are identical."
+    },
+    {
+        "type": "graph",
+        "idx": 10,
+        "description": "Show a vector u. Illustrate that multiplying u by the scalar 1 results in the same vector u."
+    }
+]

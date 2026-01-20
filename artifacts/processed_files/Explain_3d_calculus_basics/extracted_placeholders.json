@@ -1,0 +1,42 @@
+[
+    {
+        "type": "image",
+        "idx": 0,
+        "description": "Cartesian coordinate system 3D"
+    },
+    {
+        "type": "image",
+        "idx": 1,
+        "description": "Cylindrical coordinate system 3D"
+    },
+    {
+        "type": "image",
+        "idx": 2,
+        "description": "Spherical coordinate system 3D"
+    },
+    {
+        "type": "image",
+        "idx": 3,
+        "description": "3D vector representation"
+    },
+    {
+        "type": "image",
+        "idx": 4,
+        "description": "Level surfaces of a function"
+    },
+    {
+        "type": "graph",
+        "idx": 5,
+        "description": "A 3D surface f(x,y,z)=k with tangent lines illustrating partial derivatives \u2202f/\u2202x and \u2202f/\u2202y at a specific point. Show the planes y=constant and x=constant intersecting the surface."
+    },
+    {
+        "type": "graph",
+        "idx": 6,
+        "description": "A 3D plot showing several level surfaces of a function f(x,y,z) and gradient vectors drawn at various points, clearly illustrating that the gradient vectors are perpendicular to the level surfaces and point in the direction of increasing f."
+    },
+    {
+        "type": "graph",
+        "idx": 7,
+        "description": "A 3D region E (e.g., a sphere or a rectangular prism) with a small differential volume element dV highlighted, illustrating the concept of triple integration over a 3D domain."
+    }
+]

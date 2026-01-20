@@ -37,8 +37,6 @@ Faulty Code:
 {faulty_code}
 
 Fixed Code:
-<<<<<<< HEAD
-=======
 """
 
 AUDIO_GENERATION_TUTOR_PROMPT = """
@@ -49,7 +47,7 @@ Rules to follow:
 1. The transcript should be a title, followed by the narration.
 2. The important part is that this narration will be passed to a text to speech model to generate an audio, so make sure the texts doesn't contain weird special characters or anything that might cause issues.
 3. The transcript should be in the following format(Don't include any other text or formatting including the headings):
-
+4. Make sure the transcript is not too long, keep it concise and to the point.
 ```
 <title>
 <narration>
@@ -67,6 +65,7 @@ The conversation should be engaging, informative and should cover all the import
 
 Rules to follow:
 1. The transcript should be in the following format(Don't include any other text or formatting including the headings):
+2. Make sure the transcript is not too long, keep it concise and to the point.
 ```
 PA: <text>
 PB: <text>
@@ -97,13 +96,11 @@ So, where the specific content is required you have to create a placeholder in t
 
 # The strucute of creating a placeholders:
 ## Image Placeholder:
-<image: `Detailed description of image to search the internet. Don't make it too long.`>
+<image: `Brief caption of image to search the internet. Keep it concise. It should be less than 7 words.`>
 
 ## Graph Placeholder:
 <graph: `Detailed description of required graph`>
 
-## Mermaid Placeholder:
-<mermaid: `Detailed description of mermaid graph. Don't include the mermaid syntax, just describe what mermaid graph is required`>
 
 Rules to follow while creating content:
 1. Make sure you exactly follow the placeholder structure.

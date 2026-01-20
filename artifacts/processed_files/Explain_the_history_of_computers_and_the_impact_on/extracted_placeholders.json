@@ -1,0 +1,27 @@
+[
+    {
+        "type": "image",
+        "idx": 0,
+        "description": "Early mechanical calculating devices like the abacus, Pascaline, and Babbage's Analytical Engine."
+    },
+    {
+        "type": "image",
+        "idx": 1,
+        "description": "A visual representation of the evolution of computer components, showing a vacuum tube, a transistor, an integrated circuit, and a microprocessor."
+    },
+    {
+        "type": "image",
+        "idx": 2,
+        "description": "An iconic image of an early personal computer, such as an Apple II or an original IBM PC."
+    },
+    {
+        "type": "image",
+        "idx": 3,
+        "description": "A conceptual image representing the global reach of the internet, perhaps a network of interconnected lines over a world map."
+    },
+    {
+        "type": "graph",
+        "idx": 4,
+        "description": "A line graph showing the exponential growth of internet users worldwide from 1995 to 2023. The X-axis should be \"Year\" and the Y-axis should be \"Number of Internet Users (in billions)\"."
+    }
+]

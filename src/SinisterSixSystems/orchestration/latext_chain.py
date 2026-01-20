@@ -1,6 +1,7 @@
 import asyncio
 from langgraph.graph import StateGraph, START, END
 from typing import TypedDict
+import os
 import operator
 from typing import Annotated, TypedDict, Union
 
@@ -67,19 +68,17 @@ def build_sequential_graph():
     workflow.add_edge("saver", "pdf_compiler")
     workflow.add_edge("pdf_compiler", END)
     
-    # Path for Markdown/Web
-    workflow.add_edge("validator", "markdown_gen")
-    workflow.add_edge("markdown_gen", "markdown_saver")
-    workflow.add_edge("markdown_saver", END)
 
     return workflow.compile()
 
-async def run_task(prompt: str):
+async def run_task(prompt: str, filepath: str = ""):
     app = build_sequential_graph()
-    inputs = {"user_input": prompt}
+    inputs = {"user_input": prompt, "file_path": filepath}
     print(f"🚀 Starting Multi-Agent Task: {prompt}")
     print("=" * 50)
     
+    os.makedirs(os.path.dirname(filepath), exist_ok=True)
+
     async for event in app.astream(inputs, stream_mode="updates"):
         for node, values in event.items():
             print(f"✅ NODE FINISHED: {node}")

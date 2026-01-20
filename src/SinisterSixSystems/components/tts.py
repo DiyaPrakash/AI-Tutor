@@ -2,6 +2,7 @@ from SinisterSixSystems.logging import logger
 from SinisterSixSystems.config import TTSConfig
 from pocket_tts import TTSModel
 import numpy as np
+import os
 
 import torch
 import scipy.io.wavfile
@@ -26,7 +27,7 @@ class TTS:
 
         scipy.io.wavfile.write(self.config.default_audio_path, self.model.sample_rate, audio.numpy())
 
-    def generate_batch_audio(self, conversations: list[dict[str, str]]) -> None:
+    def generate_batch_audio(self, conversations: list[dict[str, str]], folderpath: str, mode: str) -> None:
         audios = []
         silence_duration_seconds = np.random.uniform(0.1, 0.3)
         try:
@@ -72,4 +73,6 @@ class TTS:
                 merged_audio.append(silence)
 
         final_audio = torch.cat(merged_audio, dim=concat_dim)
-        scipy.io.wavfile.write(self.config.default_audio_path, sample_rate, final_audio.cpu().numpy())
+
+        os.makedirs(os.path.join(folderpath, "audios"), exist_ok=True)
+        scipy.io.wavfile.write(os.path.join(folderpath, f"audios/{mode}.wav"), sample_rate, final_audio.cpu().numpy())

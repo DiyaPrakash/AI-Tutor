@@ -1,0 +1,17 @@
+[
+    {
+        "type": "image",
+        "idx": 0,
+        "description": "Steam engine labeled diagram"
+    },
+    {
+        "type": "image",
+        "idx": 1,
+        "description": "Steam engine piston movement"
+    },
+    {
+        "type": "image",
+        "idx": 2,
+        "description": "Vintage steam locomotive"
+    }
+]

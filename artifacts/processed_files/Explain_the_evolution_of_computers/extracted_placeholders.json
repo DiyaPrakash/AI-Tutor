@@ -1,0 +1,37 @@
+[
+    {
+        "type": "image",
+        "idx": 0,
+        "description": "An antique Pascaline mechanical calculator showing its gears and dials."
+    },
+    {
+        "type": "image",
+        "idx": 1,
+        "description": "A detailed drawing or schematic of Charles Babbage's Analytical Engine, highlighting its mechanical complexity."
+    },
+    {
+        "type": "image",
+        "idx": 2,
+        "description": "A close-up of a glowing vacuum tube, a key component of first-generation computers."
+    },
+    {
+        "type": "image",
+        "idx": 3,
+        "description": "A close-up of an early transistor, showing its small size compared to a vacuum tube."
+    },
+    {
+        "type": "image",
+        "idx": 4,
+        "description": "A close-up of an early integrated circuit (microchip) with visible pins and a small silicon die."
+    },
+    {
+        "type": "image",
+        "idx": 5,
+        "description": "An image of the Intel 4004 microprocessor chip, often considered the first microprocessor."
+    },
+    {
+        "type": "image",
+        "idx": 6,
+        "description": "A conceptual image representing quantum computing, possibly showing entangled qubits or a quantum processor chip."
+    }
+]

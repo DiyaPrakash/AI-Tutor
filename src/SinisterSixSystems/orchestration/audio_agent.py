@@ -17,6 +17,7 @@ class AudioAgentState(TypedDict):
     transcript: List[dict[str, str]]
     mode: str
     markdown_document: str
+    filepath: str
 
 class AudioAgent:
     def __init__(self):
@@ -43,7 +44,7 @@ class AudioAgent:
                     "text": line.strip().replace(":", " ")
                 })
 
-        self.tts.generate_batch_audio(transcripts)
+        self.tts.generate_batch_audio(transcripts, state.get("filepath", "./"), mode="tutor")
 
         return {
             "transcript": transcripts,
@@ -74,7 +75,7 @@ class AudioAgent:
                     "text": line.strip().replace(":", " ")
                 })
 
-        self.tts.generate_batch_audio(transcripts)
+        self.tts.generate_batch_audio(transcripts, state.get("filepath", "./"), mode="story")
 
         return {
             "transcript": transcripts,

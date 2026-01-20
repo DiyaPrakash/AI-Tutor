@@ -1,0 +1,17 @@
+[
+    {
+        "type": "image",
+        "idx": 0,
+        "description": "Photosynthesis overall process diagram"
+    },
+    {
+        "type": "image",
+        "idx": 1,
+        "description": "Light-dependent reactions thylakoid diagram"
+    },
+    {
+        "type": "image",
+        "idx": 2,
+        "description": "Simplified Calvin cycle diagram"
+    }
+]

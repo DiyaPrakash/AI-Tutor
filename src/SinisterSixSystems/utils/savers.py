@@ -12,14 +12,15 @@ def latex_saver_node(state):
     print("📍 [DEBUG] Entered LaTeX Saver Node")
     content = state.get("text_content", "")
     filename = sanitize_filename(state["user_input"]) + ".tex"
-    path = os.path.join("artifacts", "latex", filename)
-    content = re.sub(r'\[htbp\]htbp\]', r'[htbp]', content)
-    os.makedirs(os.path.dirname(path), exist_ok=True)
+    filepath = state.get("file_path", "")
+    os.makedirs(os.path.dirname(filepath), exist_ok=True)
+    path = os.path.join(os.path.join(filepath, "/latex/"), filename)
+
     with open(path, "w", encoding="utf-8") as f:
         f.write(content)
     
     print(f"✅ LaTeX saved to: {path}")
-    return {"file_path": path}
+    return {"file_path": filepath}
 
 def markdown_saver_node(state):
     """Saves the clean markdown content to an .md file."""

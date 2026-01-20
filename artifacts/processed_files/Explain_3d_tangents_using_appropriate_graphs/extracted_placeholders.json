@@ -1,0 +1,12 @@
+[
+    {
+        "type": "graph",
+        "idx": 0,
+        "description": "A 3D graph showing a helix (parametric curve) from t=0 to t=2pi. At t=pi, a point P is marked on the helix. An arrow representing the tangent vector r'(pi) originates from P and points along the curve's direction. A straight line representing the tangent line passes through P and extends in the direction of the tangent vector."
+    },
+    {
+        "type": "graph",
+        "idx": 1,
+        "description": "A 3D graph showing a paraboloid surface (e.g., z = x^2 + y^2). At a specific point P on the paraboloid, a flat plane representing the tangent plane is shown touching the surface only at P. An arrow representing the normal vector to the surface at P is shown originating from P and perpendicular to the tangent plane."
+    }
+]

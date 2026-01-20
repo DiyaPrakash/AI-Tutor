@@ -1,31 +1,37 @@
 import subprocess
 import os
+from SinisterSixSystems.utils.savers import sanitize_filename
 
 def pdf_compiler_node(state):
     """
     LangGraph node that triggers the PDF compilation.
     """
     print("📍 [DEBUG] Entered PDF Compiler Node")
-    tex_path = state.get("file_path")
+    filepath = state.get("file_path")
     
     if not tex_path:
         print("❌ Error: No file_path found in state.")
         return state
         
-    pdf_path = compile_latex_to_pdf(tex_path)
+    tex_path = os.path.join(filepath, f"latex/{sanitize_filename(state['user_input'])}.tex")
+    pdf_path = compile_latex_to_pdf(state, filepath)
     return {**state, "pdf_path": pdf_path}
 
-def compile_latex_to_pdf(tex_file_path):
+def compile_latex_to_pdf(state, file_path):
     """
     Compiles a .tex file into a .pdf using MiKTeX's pdflatex.
     """
-    if not os.path.exists(tex_file_path):
-        print(f"❌ Error: File {tex_file_path} not found.")
+    if not os.path.exists(file_path):
+        print(f"❌ Error: File {file_path} not found.")
         return None
 
-    output_dir = os.path.dirname(tex_file_path)
-    file_name = os.path.basename(tex_file_path)
-    
+    output_dir = os.path.join(os.path.dirname(file_path), "pdf")
+    os.makedirs(output_dir, exist_ok=True)
+
+    file_name = os.path.basename(file_path)
+    tex_file_path = os.path.join(file_path, f"latex/{sanitize_filename(state['user_input'])}.tex")
+    pdf_path = os.path.join(file_path, f"pdf/{sanitize_filename(state['user_input'])}.pdf")
+
     print(f"📄 Compiling {file_name}...")
 
     try:
@@ -46,7 +52,6 @@ def compile_latex_to_pdf(tex_file_path):
             )
 
         if result.returncode == 0:
-            pdf_path = tex_file_path.replace(".tex", ".pdf")
             print(f"✅ SUCCESS: PDF generated at {pdf_path}")
             
             # Cleanup auxiliary files

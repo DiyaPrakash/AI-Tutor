@@ -3,7 +3,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 
 def latex_validator_node(state):
     print("📍 [DEBUG] Entered Dynamic LaTeX Validator Node")
-    llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash", temperature=0)
+    llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0)
     raw_latex = state.get("text_content", "")
     
     # 1. DYNAMIC PACKAGE MAPPING

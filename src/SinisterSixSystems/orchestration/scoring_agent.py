@@ -2,7 +2,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 
 def scoring_node(state):
     print(f"📍 [DEBUG] Entered Scoring Agent (Attempt {state.get('retry_count', 0) + 1})")
-    llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash", temperature=0)
+    llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0)
     
     content = state.get("text_content", "")
     

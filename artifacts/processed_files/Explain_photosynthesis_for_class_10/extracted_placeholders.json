@@ -1,0 +1,32 @@
+[
+    {
+        "type": "image",
+        "idx": 0,
+        "description": "Plant absorbing sunlight"
+    },
+    {
+        "type": "image",
+        "idx": 1,
+        "description": "Leaf cross-section showing chloroplasts"
+    },
+    {
+        "type": "image",
+        "idx": 2,
+        "description": "Chloroplast internal structure diagram"
+    },
+    {
+        "type": "image",
+        "idx": 3,
+        "description": "Light-dependent reactions simplified diagram"
+    },
+    {
+        "type": "image",
+        "idx": 4,
+        "description": "Calvin cycle simplified diagram"
+    },
+    {
+        "type": "image",
+        "idx": 5,
+        "description": "Photosynthesis overall process diagram"
+    }
+]

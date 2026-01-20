@@ -11,6 +11,7 @@ from SinisterSixSystems.orchestration.graph_generator import GraphGenerator
 from SinisterSixSystems.orchestration.audio_agent import AudioAgent
 from SinisterSixSystems.constants import ORCHESTRATOR_PROMPT, MARKDOWN_AGENT_PROMPT, RAG_AGENT_PROMPT
 from SinisterSixSystems.components.rag import RAG
+from SinisterSixSystems.utils import sanitze_filename
 
 from langchain_core.messages import BaseMessage, HumanMessage, AIMessage
 from langchain_core.messages import ToolMessage
@@ -95,7 +96,7 @@ class Orchestrator:
             str: Status message indicating completion of image generation.
         """
         # Placeholder for image generation logic
-        ROOT_DIR = f"./artifacts/processed_files/{query[:50]}/"
+        ROOT_DIR = f"./artifacts/processed_files/{sanitze_filename(query)}/"
 
         logger.info(f"Image generation invoked with description: {description[:200]}")
         
@@ -106,15 +107,17 @@ class Orchestrator:
         search_url = "https://www.googleapis.com/customsearch/v1"
         params = {
             'q': description,
-            'cx': GOOGLE_CSE_ID,
-            'key': GOOGLE_API_KEY,
+            'cx': os.getenv("GOOGLE_CSE_ID"),
+            'key': os.getenv("GOOGLE_API_KEY"),
             'searchType': 'image',
-            'num': 1,
+            'num': 7,
             'safe': 'off'
         }
 
         try:
             search_res = requests.get(search_url, headers=headers, params=params).json()
+            logger.info(f"Search results: {json.dumps(search_res)[:500]}")
+
             # import random
             
             # random_idx = random.randint(0, len(search_res.get("items", [])) - 1) if "items" in search_res else 0
@@ -144,13 +147,13 @@ class Orchestrator:
                         img = Image.open(io.BytesIO(img_bytes))
                         img.verify()
                         os.makedirs(os.path.join(ROOT_DIR, "images"), exist_ok=True)
-                        ext = mimetypes.guess_extension(content_type) or ".jpg"
+                        ext = ".png"
                         final_filename = os.path.join(os.path.join(ROOT_DIR, "images"), f"image_{placeholder_idx}{ext}")
 
                         with open(final_filename, "wb") as f:
                             f.write(img_bytes)
                         
-                        logger.info(f"Image saved to {final_filename}")
+                        return f"Image saved to {final_filename}"
 
                     except Exception:
                         logger.warning(f"Downloaded file is not a valid image: {image_url}")
@@ -170,7 +173,7 @@ class Orchestrator:
 
     @staticmethod
     @tool
-    def audio_generation_tool(mode: str) -> str:
+    def audio_generation_tool(mode: str) -> str:    
         """
         Generates audio based on the provided mode using the AudioAgent component.
         Args:
@@ -208,7 +211,7 @@ class Orchestrator:
         if not os.path.exists(ROOT_DIR):
             os.makedirs(ROOT_DIR)
         
-        os.makedirs(os.path.join(ROOT_DIR, query[:50]), exist_ok=True)
+        os.makedirs(os.path.join(ROOT_DIR, sanitze_filename(query)), exist_ok=True)
 
         pattern = re.compile(r"<\s*(graph|image|mermaid)\s*:\s*([^>]+?)\s*>", re.IGNORECASE)
 
@@ -216,7 +219,7 @@ class Orchestrator:
 
         print(len(matches), "placeholders found.")
 
-        dir_path = os.path.join(ROOT_DIR, query[:50])
+        dir_path = os.path.join(ROOT_DIR, sanitze_filename(query))
         os.makedirs(dir_path, exist_ok=True)
 
 
@@ -227,15 +230,13 @@ class Orchestrator:
             matched_text = m.group(0)
             logger.info(f"Placeholder {idx}: {matched_text[:20]}")
             placeholder_type = m.group(1).lower()
-            processed_markdown = processed_markdown.replace(matched_text, f"<{placeholder_type}_{idx}>\n")
+            processed_markdown = processed_markdown.replace(matched_text, f"![{sanitze_filename(m.group(2).strip())}](/artifacts/processed_files/{sanitze_filename(query)}/{placeholder_type}s/{placeholder_type}_{idx}.png)\n")
             extracted_placeholder.append({
                 "type": placeholder_type,
                 "idx": idx,
                 "description": m.group(2).strip(),
             })
 
-        with open(os.path.join(dir_path, "processed_document.md"), "w") as f:
-            f.write(processed_markdown)
         
         with open(os.path.join(dir_path, "extracted_placeholders.json"), "w") as f:
             json.dump(extracted_placeholder, f, indent=4)
@@ -243,10 +244,14 @@ class Orchestrator:
         for placeholder in extracted_placeholder:
             logger.info(f"Processing placeholder: {placeholder}")
             if placeholder["type"] == "graph":
-                self.graph_tool(placeholder["description"], placeholder['idx'], f"./artifacts/processed_files/{query[:50]}/graphs/")
+                self.graph_tool(placeholder["description"], placeholder['idx'], f"./artifacts/processed_files/{sanitze_filename(query)}/graphs/")
             elif placeholder["type"] == "image":
-                self.image_generation_tool(placeholder["description"], query, placeholder['idx'])
+                if "Image generation failed: No results found." == self.image_generation_tool(placeholder["description"], query, placeholder['idx']):
+                    processed_markdown = processed_markdown.replace(f"![{sanitze_filename(placeholder['description'])}](/artifacts/processed_files/{sanitze_filename(query)}/images/image_{placeholder['idx']}.png)\n", "")
+                    logger.error(f"No image results found for placeholder: {placeholder}")
             
+        with open(os.path.join(dir_path, "processed_document.md"), "w") as f:
+            f.write(processed_markdown)
         return processed_markdown
     
     def process_placeholder(self, state: OrchestratorState) -> OrchestratorState:
