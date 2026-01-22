@@ -13,6 +13,7 @@ from SinisterSixSystems.orchestration.audio_agent import AudioAgent
 from SinisterSixSystems.constants import ORCHESTRATOR_PROMPT, MARKDOWN_AGENT_PROMPT, RAG_AGENT_PROMPT
 from SinisterSixSystems.components.rag import RAG
 from SinisterSixSystems.utils import sanitze_filename
+from SinisterSixSystems.mermaid_flowchart import FlowchartAgent
 
 from langchain_core.messages import BaseMessage, HumanMessage, AIMessage
 from langchain_core.messages import ToolMessage
@@ -46,6 +47,7 @@ class Orchestrator:
         
         self.tools = [
             self.graph_tool,
+            self.mermaid_generation_tool,
             self.audio_generation_tool
         ]
 
@@ -86,6 +88,80 @@ class Orchestrator:
 
         return "Graph generation completed."
     
+    @staticmethod
+    def mermaid_generation_tool(topic: str, placeholder_idx: int, path: str) -> str:
+        """
+        Generates a mermaid flowchart based on the provided topic.
+        Args:
+            topic (str): The topic or description for the flowchart, OR raw mermaid code.
+            placeholder_idx (int): The index of the placeholder.
+            path (str): The output directory path.
+        Returns:
+            str: Status message indicating completion.
+        """
+        logger.info(f"Mermaid Tool Invoked with Topic: {topic[:100]}...")
+        
+        try:
+            from pathlib import Path
+            output_dir = Path(path)
+            output_dir.mkdir(parents=True, exist_ok=True)
+            
+            output_path = output_dir / f"mermaid_{placeholder_idx}.png"
+            
+            # Detect if topic is already mermaid code or a description
+            # Mermaid code typically starts with "graph TD", "graph LR", "flowchart", etc.
+            topic_stripped = topic.strip()
+            is_mermaid_code = any(topic_stripped.startswith(prefix) for prefix in 
+                                   ['graph TD', 'graph LR', 'graph TB', 'graph BT', 
+                                    'flowchart', 'sequenceDiagram', 'classDiagram'])
+            
+            if is_mermaid_code:
+                logger.info("Detected raw mermaid code in placeholder, using it directly")
+                # Use the provided code directly
+                agent = FlowchartAgent()
+                # We need to pass the code directly, but FlowchartAgent.generate_png expects a topic
+                # So we'll directly call the internal method or modify the approach
+                
+                # For now, let's save to a temp file and call generate_png with a dummy topic
+                # Actually, let's just use the agent's internal logic
+                code = topic_stripped
+                
+                # Clean and ensure first line is graph TD if needed
+                lines = [line.strip() for line in code.splitlines() if line.strip()]
+                if not lines or not any(lines[0].startswith(prefix) for prefix in 
+                                       ['graph', 'flowchart', 'sequenceDiagram', 'classDiagram']):
+                    lines.insert(0, "graph TD")
+                
+                code = "\n".join(lines)
+                
+                # Use the agent's internal methods directly
+                success = agent._generate_via_ink(code, output_path)
+                
+                if not success:
+                    # Try fallback
+                    logger.warning("Direct code generation failed, trying simple fallback")
+                    fallback_code = agent._get_fallback_code(topic[:50])
+                    success = agent._generate_via_ink(fallback_code, output_path)
+                
+                if success and output_path.exists():
+                    logger.info(f"Mermaid flowchart generated at: {output_path}")
+                    return f"Mermaid flowchart generated at {output_path}"
+                else:
+                    logger.error("Mermaid generation failed")
+                    return f"Mermaid generation failed"
+            else:
+                logger.info("Detected description, generating mermaid code via LLM")
+                # Use the normal flow - generate code from description
+                agent = FlowchartAgent()
+                result_path = agent.generate_png(topic, output_path)
+                
+                logger.info(f"Mermaid flowchart generated at: {result_path}")
+                return f"Mermaid flowchart generated at {result_path}"
+                
+        except Exception as e:
+            logger.error(f"Mermaid generation failed: {e}")
+            return f"Mermaid generation failed: {e}"
+
     
     @staticmethod
     def image_generation_tool(description: str, query: str, placeholder_idx: int) -> str:
@@ -233,6 +309,8 @@ class Orchestrator:
             logger.info(f"Processing placeholder: {placeholder}")
             if placeholder["type"] == "graph":
                 self.graph_tool(placeholder["description"], placeholder['idx'], f"./artifacts/processed_files/{sanitze_filename(query)}/graphs/")
+            elif placeholder["type"] == "mermaid":
+                self.mermaid_generation_tool(placeholder["description"], placeholder['idx'], f"./artifacts/processed_files/{sanitze_filename(query)}/mermaid/")
             elif placeholder["type"] == "image":
                 if "Image generation failed: No results found." == self.image_generation_tool(placeholder["description"], query, placeholder['idx']):
                     processed_markdown = processed_markdown.replace(f"![{sanitze_filename(placeholder['description'])}](/artifacts/processed_files/{sanitze_filename(query)}/images/image_{placeholder['idx']}.png)\n", "")
@@ -249,7 +327,9 @@ class Orchestrator:
 
         markdown_document = response.content.replace("```markdown", "").replace("```", "").strip()
         
-        with open("./artifacts/markdown/generated_document.md", "w") as f:
+        output_path = "./artifacts/markdown/generated_document.md"
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)
+        with open(output_path, "w") as f:
             f.write(markdown_document)
 
         self.process_markdown_files(markdown_document, state["messages"][0].content)
@@ -389,7 +469,7 @@ if __name__ == "__main__":
 
     initial_state = {
             "messages": [
-                HumanMessage(content="Explain steam engines with relevant graphs and images." ),
+                HumanMessage(content="Explain photosynthesis in detail."),
             ],
             "document": "",
     }

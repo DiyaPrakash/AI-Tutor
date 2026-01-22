@@ -3,6 +3,8 @@ from pathlib import Path
 import textwrap
 import sys
 import os
+import time
+import re
 
 # ------------------ ARTIFACTS PATH ------------------
 MERMAID_DIR = Path("artifacts/mermaid")
@@ -121,5 +123,8 @@ if __name__ == "__main__":
     else:
         topic = get_topic_from_user()
 
-    output = MERMAID_DIR / "educational_flowchart.png"
+    # Sanitize topic for filename
+    safe_topic = re.sub(r'[^\w\-_]', '_', topic)[:30]
+    timestamp = int(time.time())
+    output = MERMAID_DIR / f"educational_flowchart_{safe_topic}_{timestamp}.png"
     agent.render(topic, output)

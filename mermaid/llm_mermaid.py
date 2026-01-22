@@ -59,59 +59,38 @@ class LLMGraphGenerator:
         
         prompt = f"""Generate a detailed educational Mermaid flowchart diagram for: "{topic}"
 
-CRITICAL REQUIREMENTS:
-1. Use 'graph TD' (top-down direction)
-2. Use proper node IDs: A, B, C, D, E, F, G, H, I, J, K, L, M... (single uppercase letters)
-3. Each node must have a unique ID and a descriptive label
+CRITICAL INSTRUCTIONS:
+1. BREAK DOWN the topic into specific, logical steps or components. Do NOT just list generic labels like "Introduction" or "Conclusion". Use ACTUAL content (e.g., "Mouth/Saliva", "Stomach Acid", "Small Intestine Absorption").
+2. Use 'graph TD' (top-down).
+3. Use proper node IDs: A, B, C... and descriptive labels in quotes: ["Label"].
 4. Use DIFFERENT SHAPES for variety:
-   - Round: ([Start/End])
-   - Rectangular: ["Process"]
-   - Diamond: {{Decision}}
-   - Cylindrical: ("Database/Storage") - Note: Use DOUBLE parentheses ONLY
-   - Hexagon: {{"Special Process"}}
-5. Add CYCLIC ARROWS if the topic involves a cycle (like water cycle, carbon cycle, etc.):
-   - Use --> for forward flow
-   - Add back arrows (e.g., I --> B) to show cycle continuation
-6. DO NOT use colors or style statements - use ONLY different shapes to distinguish nodes
-7. Make nodes topic-specific and educational
-8. Include at least 5-10 nodes for a comprehensive flowchart
-9. If topic is a CYCLE, ensure there's a return arrow to show the cycle repeats
-10. Use clear, educational labels for each step/stage
-11. Return ONLY the Mermaid syntax code, nothing else
-12. Do NOT include markdown code blocks (```mermaid or ```)
-13. Do NOT include explanations or additional text
+   - Start/End: ([Start]) or ([End])
+   - Process: ["Action/Step"]
+   - Decision: {{Condition?}}
+   - Data/Storage: [("Data")]  <-- Note: Use square bracket + parenthesis
+   - Database: [("DB")]
+5. NO subgraphs. Keep it simple.
+6. NO styling or colors.
+7. Return ONLY the Mermaid code.
 
-Example format with different shapes and cycles (NO COLORS):
+Example for 'Photosynthesis':
 graph TD
-    A([Start: Water Cycle]) --> B["Evaporation"]
-    B --> C["Condensation"]
-    C --> D{{Cloud Formation}}
-    D --> E["Precipitation"]
-    E --> F(("Collection"))
-    F --> G["Storage"]
-    G --> A
+    A([Start: Sunlight]) --> B["Chloroplasts absorb light"]
+    B --> C{{"Water available?"}}
+    C -->|Yes| D["Light-dependent reactions"]
+    C -->|No| E["Process stops"]
+    D --> F["ATP produced"]
+    F --> G([End: Glucose created])
 
-CRITICAL SYNTAX RULES:
-- Each arrow MUST be on its own line: A --> B (NOT: A --> B --> C)
-- Use DOUBLE parentheses for cylindrical: (("Label")) NOT [("Label")]
-- DO NOT include any style or color statements - use ONLY shapes
-- Ensure all brackets [ ], parentheses ( ), and braces {{ }} are properly matched
-- Keep node labels simple and in quotes: ["Label"]
-- Avoid special characters in labels that might break parsing
-
-Now generate for topic: {topic}. Use different shapes (round, rectangular, diamond, cylindrical) and add cyclic arrows if it's a cycle. DO NOT use colors or style statements - shapes only.
-
-Mermaid code:"""
+Now generate for: {topic}"""
 
         try:
             # Google Gemini API
             system_instruction = (
-                "You are an expert at creating educational flowcharts in Mermaid syntax. "
-                "Always use proper node IDs (A, B, C, etc.) and return ONLY valid Mermaid code. "
-                "CRITICAL: Use different shapes (round, rectangular, diamond, cylindrical) to "
-                "distinguish nodes. Add cyclic arrows when topics involve cycles. "
-                "DO NOT use colors or style statements - shapes only. "
-                "Never include markdown code blocks or explanations."
+                "You are an expert Mermaid diagram generator. "
+                "Your goal is to create educational, step-by-step flowcharts. "
+                "ALWAYS match the topic depth. logical flow is key. "
+                "Strictly follow Mermaid syntax rules."
             )
             
             full_prompt = f"{system_instruction}\n\n{prompt}"

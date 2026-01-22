@@ -101,6 +101,9 @@ So, where the specific content is required you have to create a placeholder in t
 ## Graph Placeholder:
 <graph: `Detailed description of required graph`>
 
+## Mermaid Placeholder:
+<mermaid: `Brief description of the flowchart or diagram needed. Do NOT include actual mermaid code, just describe what should be shown.`>
+
 
 Rules to follow while creating content:
 1. Make sure you exactly follow the placeholder structure.

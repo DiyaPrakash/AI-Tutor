@@ -5,6 +5,8 @@ src/SinisterSixSystems.egg-info/PKG-INFO
 src/SinisterSixSystems.egg-info/SOURCES.txt
 src/SinisterSixSystems.egg-info/dependency_links.txt
 src/SinisterSixSystems.egg-info/top_level.txt
+src/SinisterSixSystems/agent_lightning/__init__.py
+src/SinisterSixSystems/agent_lightning/store.py
 src/SinisterSixSystems/components/__init__.py
 src/SinisterSixSystems/components/rag.py
 src/SinisterSixSystems/components/rag_.py
@@ -14,6 +16,10 @@ src/SinisterSixSystems/config/__init__.py
 src/SinisterSixSystems/constants/__init__.py
 src/SinisterSixSystems/entity/__init__.py
 src/SinisterSixSystems/logging/__init__.py
+src/SinisterSixSystems/mermaid_flowchart/__init__.py
+src/SinisterSixSystems/mermaid_flowchart/agent.py
+src/SinisterSixSystems/mermaid_flowchart/llm_generator.py
+src/SinisterSixSystems/mermaid_flowchart/mermaid_utils.py
 src/SinisterSixSystems/orchestration/PicCode (1).py
 src/SinisterSixSystems/orchestration/PicCode.py
 src/SinisterSixSystems/orchestration/__init__.py
@@ -22,9 +28,12 @@ src/SinisterSixSystems/orchestration/audio_agent.py
 src/SinisterSixSystems/orchestration/graph_generator.py
 src/SinisterSixSystems/orchestration/image_agent.py
 src/SinisterSixSystems/orchestration/latex_validator.py
+src/SinisterSixSystems/orchestration/latext_chain.py
+src/SinisterSixSystems/orchestration/lightning_optimizer.py
 src/SinisterSixSystems/orchestration/markdown_agent.py
 src/SinisterSixSystems/orchestration/orchestrator.py
 src/SinisterSixSystems/orchestration/router.py
+src/SinisterSixSystems/orchestration/scoring_agent.py
 src/SinisterSixSystems/orchestration/state.py
 src/SinisterSixSystems/orchestration/text_agent.py
 src/SinisterSixSystems/utils/__init__.py
